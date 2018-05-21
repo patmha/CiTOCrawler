@@ -136,9 +136,9 @@ class CitoSpider(scrapy.spiders.Spider):
             self.logger.info(info_str)
 
         else:
-            # print 'contentype  =================================================' + content_type
+            print 'contentype  =================================================' + content_type
 
-            # add check if response.url is in crawled pages dict
+            # check if page URL (after possible redirection) has been crawled before less than self.maxhours ago
             last_crawl_time = self.crawled_urls_dict.get(response.url)
             if last_crawl_time and self._data_still_valid(response.url, last_crawl_time):
                 info_str = u"Ignoring URL: crawled {0} recently.".format(response.url)

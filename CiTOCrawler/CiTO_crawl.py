@@ -25,7 +25,7 @@ parser.add_argument("-D", "--dfs", action="store_true", help="force use of DFS (
 parser.add_argument("-V", "--visitonly", action="store_true", help="just visit webpages, without RDF parsing")
 parser.add_argument("--debugmode", action="store_true", help="debug mode")
 
-# group2 = parser.add_mutually_exclusive_group(required=True)
+# group2 = parser.add_mutually_exclusive_group(required=False)
 # group2.add_argument("-B", "--bfs", action="store_true", help="use breadth-first search")
 # group2.add_argument("-D", "--dfs", action="store_true", help="use depth-first search")
 
