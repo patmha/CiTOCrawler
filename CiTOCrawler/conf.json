@@ -1,0 +1,13 @@
+{
+  "seedpath": "nuseed1.txt",
+  "urllist" : [],
+  "depth": 1,
+  "allowedlinks": [],
+  "prioritylinks": [],
+  "samedomain": false,
+  "maxhours": 720,
+  "querypath": "sparqlQuery.txt",
+  "csvpath": "crawledPages.csv",
+  "bfs": true,
+  "visitonly": false
+}

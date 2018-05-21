@@ -1,0 +1,5 @@
+CONSTRUCT { ?s ?p ?o . }
+WHERE {
+    ?s ?p ?o .
+    FILTER regex(str(?p), "^http://purl.org/spar/cito/.*")
+    }

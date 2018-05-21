@@ -1,0 +1,7 @@
+Scrapy==1.4.0
+rdflib==4.2.2
+rdflib-jsonld==0.4.0
+requests==2.18.4
+nltk==3.2.5
+SPARQLWrapper==1.8.0
+html5lib==0.999999999
