@@ -9,5 +9,6 @@
   "querypath": "sparqlQuery.txt",
   "csvpath": "crawledPages.csv",
   "bfs": true,
-  "visitonly": false
+  "visitonly": false,
+  "debug": false
 }
