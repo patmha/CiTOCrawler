@@ -95,5 +95,7 @@ DEFAULT_REQUEST_HEADERS = {
 DEPTH_LIMIT = 0
 # DUPEFILTER_DEBUG = True
 
-
 # LOG_FILE = 'CiTOCrawl_' + datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ') + '.log'
+
+# Adds stdout to Scrapy log (this means output of print is part of Scrapy log)
+LOG_STDOUT = True
