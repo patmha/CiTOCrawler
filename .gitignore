@@ -26,7 +26,8 @@ tests/
 !ocrem.sh
 !allrem_temp_CiTO_files.sh
 !remove_temp_CiTO_files.sh
-start_blazegraph.sh
+!start_blazegraph.sh
+!start_CiTOCrawler.sh
 
 *.json
 !conf.json
