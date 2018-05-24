@@ -20,6 +20,7 @@ tests/
 *.txt
 !requirements.txt
 !sparqlQuery.txt
+!seeds.txt
 
 *.sh
 !CiTOCrawler/OC/triplestore/*.sh
