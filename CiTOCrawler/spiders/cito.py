@@ -58,7 +58,8 @@ class CitoSpider(scrapy.spiders.Spider):
         if kwargs.get('csvpath'):
             self.csvpath = kwargs['csvpath']
         else:
-            self.csvpath = './crawledPages.csv'  # set a default value
+            self.csvpath = os.path.join(main_dir, 'crawledPages.csv')  # set a default value
+        print "csvpath is {0}".format(self.csvpath)
 
         self.crawled_urls_dict = {}  # set a default value
         if os.path.isfile(self.csvpath):
@@ -335,37 +336,37 @@ class CitoSpider(scrapy.spiders.Spider):
                     # Delete saved page in case it does not contain any CiTO statements
                     if not self.hasCiTOStatements:
                         os.remove(os.path.join(self.crawled_pages_dir, filename))
-                #
-                # # Decide whether or not to follow the links found in page, depending on spider initialization values
-                #
-                # # if xpath method returns an empty list, the following for loop is not executed
-                # for a in response.xpath("//a[not(starts-with(@href, '#'))]/@href"):  # excludes links to same page
-                #     # a is some Scrapy object. a.extract() returns the href attribute value
-                #     next_page = response.urljoin(a.extract())  # creates absolute URL
-                #     if not next_page.startswith('http'):  # scheme is mailto, ftp, etc. Anything but http(s)
-                #         info_str = u'Ignoring {0}: unwanted scheme'.format(next_page)
-                #         self._print_and_log(info_str)
-                #     else:
-                #         last_crawl_time = self.crawled_urls_dict.get(next_page)
-                #         if last_crawl_time and self._data_still_valid(last_crawl_time):
-                #             info_str = u"Ignoring URL: crawled {0} recently.".format(next_page)
-                #             self._print_and_log(info_str)
-                #         else:  # page has never been crawled or was crawled more than self.maxhours ago
-                #
-                #             if (self.samedomain is True) and (urlsplit(response.meta["url4base"])[1] not in next_page):
-                #                 # info: value at index 1 in tuple returned by urlsplit() stores network location ( [wiki.]something.com )
-                #                 info_str = u'Ignoring {0}: domain is different from {1}'.format(next_page, response.meta["url4base"])
-                #                 self._print_and_log(info_str)
-                #             else:
-                #                 if self.allowedlinks and (not any(re.compile(el).search(next_page) for el in self.allowedlinks)):
-                #                     # https: // docs.python.org / 2 / library / re.html  # match-objects
-                #                     # Match objects always have a boolean value of True.
-                #                     # Since match() and search() return None when there is no match,
-                #                     # you can test whether there was a match with a simple if statement
-                #                     info_str = u'Ignoring {0}: not matching any given regex in set: {1}'.format(next_page, ', '.join(self.allowedlinks))
-                #                     self._print_and_log(info_str)
-                #                 else:
-                #                     yield response.follow(a, callback=self.parse, meta={"url4base": next_page})
+
+                # Decide whether or not to follow the links found in page, depending on spider initialization values
+
+                # if xpath method returns an empty list, the following for loop is not executed
+                for a in response.xpath("//a[not(starts-with(@href, '#'))]/@href"):  # excludes links to same page
+                    # a is some Scrapy object. a.extract() returns the href attribute value
+                    next_page = response.urljoin(a.extract())  # creates absolute URL
+                    if not next_page.startswith('http'):  # scheme is mailto, ftp, etc. Anything but http(s)
+                        info_str = u'Ignoring {0}: unwanted scheme'.format(next_page)
+                        self._print_and_log(info_str)
+                    else:
+                        last_crawl_time = self.crawled_urls_dict.get(next_page)
+                        if last_crawl_time and self._data_still_valid(last_crawl_time):
+                            info_str = u"Ignoring URL: crawled {0} recently.".format(next_page)
+                            self._print_and_log(info_str)
+                        else:  # page has never been crawled or was crawled more than self.maxhours ago
+
+                            if (self.samedomain is True) and (urlsplit(response.meta["url4base"])[1] not in next_page):
+                                # info: value at index 1 in tuple returned by urlsplit() stores network location ( [wiki.]something.com )
+                                info_str = u'Ignoring {0}: domain is different from {1}'.format(next_page, response.meta["url4base"])
+                                self._print_and_log(info_str)
+                            else:
+                                if self.allowedlinks and (not any(re.compile(el).search(next_page) for el in self.allowedlinks)):
+                                    # https: // docs.python.org / 2 / library / re.html  # match-objects
+                                    # Match objects always have a boolean value of True.
+                                    # Since match() and search() return None when there is no match,
+                                    # you can test whether there was a match with a simple if statement
+                                    info_str = u'Ignoring {0}: not matching any given regex in set: {1}'.format(next_page, ', '.join(self.allowedlinks))
+                                    self._print_and_log(info_str)
+                                else:
+                                    yield response.follow(a, callback=self.parse, meta={"url4base": next_page})
 
     def _data_still_valid(self, last_crawl_time):
         last = datetime.strptime(last_crawl_time, '%Y-%m-%dT%H:%M:%SZ')
@@ -413,7 +414,7 @@ class CitoSpider(scrapy.spiders.Spider):
                 self.logger.error(info_str)
 
             stats = ''
-            stats += "Some statistics on this crawl:\n\n"
+            stats += "Some statistics on the last crawl:\n\n"
             stats += 'Visited pages: {0}\n'.format(self.page_counter)
             stats += 'Visited pagesWithRDF: {0}\n'.format(self.pageWithRDF_counter)
             stats += 'Visited pagesWithCiTOStatements: {0}\n\n'.format(self.pageWithCiTOStatements_counter)
