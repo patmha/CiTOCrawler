@@ -1,6 +1,6 @@
 {
   "seedpath": "nuseed1.txt",
-  "urllist" : [],
+  "urllist" : ["https://ruben.verborgh.org/articles/queryable-research-data/"],
   "depth": 1,
   "allowedlinks": [],
   "prioritylinks": [],

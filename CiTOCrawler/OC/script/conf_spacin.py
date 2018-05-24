@@ -20,7 +20,7 @@ from os import path
 
 
 main_dir = path.dirname(path.dirname(path.dirname(path.abspath(__file__)))) + "/"
-base_home = main_dir + "CiTO_graphs/"
+base_home = main_dir + "OC-compliant_CiTO_graphs/"
 base_dir = base_home + "corpus/"
 base_iri = "http://localhost:8000/corpus/"
 triplestore_url = "http://localhost:3000/blazegraph/sparql"

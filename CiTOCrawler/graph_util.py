@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-import scrapy
-from lxml import etree
-from rdflib import Graph
+
+from rdflib import Graph, URIRef
 import traceback
 import sys
 import os
 import logging
 
 logger = logging.getLogger(__name__)
-# logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.DEBUG)
+
 
 def parse_ld_plus_json(scrapy_response, base):
     """
@@ -72,6 +72,22 @@ def parse_graph(filename, scrapy_response, base):
             return g1
         else:  # g2 is None or empty
             return g1
+
+
+def is_empty_parsed_graph(graph):
+    """
+    Checks if graph parsed from web page only contains an "empty" statement, that was not embedded in page
+    namely (<subjectURI>, <http://www.w3.org/ns/md#item>, <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>)
+    :param graph: an rdflib.Graph
+    :return: True if graph contains no "real" RDF, False otherwise
+    """
+    if len(graph) > 1:
+        return False
+    for po in graph.predicate_objects(None):
+        if po == (URIRef(u'http://www.w3.org/ns/md#item'),
+                  URIRef(u'http://www.w3.org/1999/02/22-rdf-syntax-ns#nil')):
+            return True
+        return False
 
 
 def run_query(graph, q):

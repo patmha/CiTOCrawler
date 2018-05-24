@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# removes directory CiTO_graphs (which contains the OpenCitations-compliant graphs) recursively
+# removes directory OC-compliant_CiTO_graphs (which contains the OpenCitations-compliant graphs) recursively
 
 cd CiTOCrawler
-rm -r CiTO_graphs
+rm -r OC-compliant_CiTO_graphs
