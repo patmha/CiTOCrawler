@@ -327,15 +327,15 @@ class CitoSpider(scrapy.spiders.Spider):
                                     info_str += u"Ooops: {0}: {1}".format(e.__class__.__name__, str(e))
                                     traceback.print_exc(file=sys.stdout)
                                     self.logger.error(info_str)
-
-                if self.debug:
-                    # Delete saved page in case it does not contain any RDF statements
-                    if not self.hasRDF:
-                        os.remove(os.path.join(self.crawled_pages_dir, filename))
-                else:
-                    # Delete saved page in case it does not contain any CiTO statements
-                    if not self.hasCiTOStatements:
-                        os.remove(os.path.join(self.crawled_pages_dir, filename))
+                #
+                # if self.debug:
+                #     # Delete saved page in case it does not contain any RDF statements
+                #     if not self.hasRDF:
+                #         os.remove(os.path.join(self.crawled_pages_dir, filename))
+                # else:
+                #     # Delete saved page in case it does not contain any CiTO statements
+                #     if not self.hasCiTOStatements:
+                #         os.remove(os.path.join(self.crawled_pages_dir, filename))
 
                 # Decide whether or not to follow the links found in page, depending on spider initialization values
 
