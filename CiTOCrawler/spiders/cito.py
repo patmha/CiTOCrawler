@@ -2,8 +2,8 @@
 import scrapy
 from scrapy import signals
 
+import errno
 from CiTOCrawler.graph_util import *
-from rdflib import Graph, URIRef
 from CiTOCrawler.OC.script.conf_spacin import *
 from CiTOCrawler.OC.script.graphlib import *
 from CiTOCrawler.OC.script.resource_finder import *
@@ -173,7 +173,7 @@ class CitoSpider(scrapy.spiders.Spider):
                     with open(os.path.join(self.crawled_pages_dir, filename), 'wb') as f:
                         f.write(response.body)
                 except IOError as e:
-                    if e.errno == 63:
+                    if e.errno == errno.ENAMETOOLONG:
                         filename = filename[:100] + 'CUTSHORT'
                         with open(os.path.join(self.crawled_pages_dir, filename), 'ab') as f:
                             f.write(response.body)
@@ -213,7 +213,7 @@ class CitoSpider(scrapy.spiders.Spider):
                                         with open(os.path.join(self.crawled_rdf_dir, rdf_file), 'wb') as f:
                                             f.write(graph4page.serialize(format='json-ld'))
                                     except IOError as e:
-                                        if e.errno == 63:
+                                        if e.errno == errno.ENAMETOOLONG:
                                             filename1 = filename1[:100] + 'CUTSHORT'
                                             with open(os.path.join(self.crawled_rdf_dir, rdf_file), 'ab') as f:
                                                 f.write(graph4page.serialize(format='json-ld'))
@@ -240,7 +240,7 @@ class CitoSpider(scrapy.spiders.Spider):
                                         with open(os.path.join(self.crawled_cito_dir, 'CiTO_g_{0}_{1}.json'.format(self.page_counter, filename1)), 'wb') as f:
                                             f.write(query_result.serialize(format='json-ld'))
                                     except IOError as e:
-                                        if e.errno == 63:
+                                        if e.errno == errno.ENAMETOOLONG:
                                             filename1 = filename1[:100] + 'CUTSHORT'
                                             with open(os.path.join(self.crawled_cito_dir, 'CiTO_g_{0}_{1}.json'.format(self.page_counter, filename1)), 'ab') as f:
                                                 f.write(graph4page.serialize(format='json-ld'))
@@ -327,15 +327,15 @@ class CitoSpider(scrapy.spiders.Spider):
                                     info_str += u"Ooops: {0}: {1}".format(e.__class__.__name__, str(e))
                                     traceback.print_exc(file=sys.stdout)
                                     self.logger.error(info_str)
-                #
-                # if self.debug:
-                #     # Delete saved page in case it does not contain any RDF statements
-                #     if not self.hasRDF:
-                #         os.remove(os.path.join(self.crawled_pages_dir, filename))
-                # else:
-                #     # Delete saved page in case it does not contain any CiTO statements
-                #     if not self.hasCiTOStatements:
-                #         os.remove(os.path.join(self.crawled_pages_dir, filename))
+
+                if self.debug:
+                    # Delete saved page in case it does not contain any RDF statements
+                    if not self.hasRDF:
+                        os.remove(os.path.join(self.crawled_pages_dir, filename))
+                else:
+                    # Delete saved page in case it does not contain any CiTO statements
+                    if not self.hasCiTOStatements:
+                        os.remove(os.path.join(self.crawled_pages_dir, filename))
 
                 # Decide whether or not to follow the links found in page, depending on spider initialization values
 
@@ -419,17 +419,6 @@ class CitoSpider(scrapy.spiders.Spider):
             stats += 'Visited pagesWithRDF: {0}\n'.format(self.pageWithRDF_counter)
             stats += 'Visited pagesWithCiTOStatements: {0}\n\n'.format(self.pageWithCiTOStatements_counter)
             stats += 'Total time running: {0}\n\n'.format(time_str)
-            #
-            # # no. il problema è il denominatore che non può essere 0
-            # # quando può essere 0 self.pageWithRDF_counter? se non trova rdf.
-            # #       ma se non trova rdf non trova manco cito, quindi 0/0
-            # # ?
-            # # e quando può essere zero self.page_counter?
-            # if self.pageWithCiTOStatements_counter == 0:
-            #     avg1 = avg2 = 0
-            # else
-            # avg1 = (float(self.pageWithCiTOStatements_counter) / float(self.pageWithRDF_counter))
-            # avg2 = (float(self.pageWithCiTOStatements_counter) / float(self.page_counter))
 
             if self.page_counter > 0:
                 avg1 = float(self.pageWithCiTOStatements_counter) / float(self.page_counter)
