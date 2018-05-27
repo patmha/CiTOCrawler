@@ -4,8 +4,8 @@
 
 cd CiTOCrawler
 rm crawledPages.csv
-rm -r crawled_pages
-rm -r crawled_RDF
-rm -r crawled_CiTO
+rm -rf crawled_pages
+rm -rf crawled_RDF
+rm -rf crawled_CiTO
 rm CiTOGraph.json
 rm stats.txt
