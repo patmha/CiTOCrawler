@@ -73,7 +73,7 @@ class CitoSpider(scrapy.spiders.Spider):
                     sys.exit('file %s, line %d: %s' % (kwargs['csvpath'], reader.line_num, e))  # https://docs.python.org/2/library/csv.html
             print "\nLoaded crawled_urls_dict from {0}".format(self.csvpath)
         else:  # file csvpath may not exist when script is run for the first time
-            print self.csvpath, "does not exist. crawled_urls_dict =", self.crawled_urls_dict
+            print "{0} does not exist. crawled_urls_dict = {1}".format(self.csvpath, self.crawled_urls_dict)
 
         self.maxhours = 720  # set a default value
         if kwargs.get('maxhours'):
@@ -139,9 +139,7 @@ class CitoSpider(scrapy.spiders.Spider):
         if content_type is None or 'html' not in content_type:
             info_str = u'Ignoring response with unacceptable Content-Type: ' + (
                 content_type if content_type is not None else "[not set]")
-            print 'Ignoring response with unacceptable Content-Type: ' + (
-                content_type if content_type is not None else "[not set]")
-            self.logger.info(info_str)
+            print info_str  # self._print_and_log(info_str)
 
         else:
             print 'contentype  =================================================' + content_type
@@ -150,7 +148,7 @@ class CitoSpider(scrapy.spiders.Spider):
             last_crawl_time = self.crawled_urls_dict.get(response.url)
             if last_crawl_time and self._data_still_valid(last_crawl_time):
                 info_str = u"Ignoring URL: crawled {0} recently.".format(response.url)
-                self._print_and_log(info_str)
+                print info_str  # self._print_and_log(info_str)
             else:  # page has never been crawled or was crawled more than self.maxhours ago
 
                 self.hasRDF = False
@@ -345,18 +343,18 @@ class CitoSpider(scrapy.spiders.Spider):
                     next_page = response.urljoin(a.extract())  # creates absolute URL
                     if not next_page.startswith('http'):  # scheme is mailto, ftp, etc. Anything but http(s)
                         info_str = u'Ignoring {0}: unwanted scheme'.format(next_page)
-                        self._print_and_log(info_str)
+                        print info_str  # self._print_and_log(info_str)
                     else:
                         last_crawl_time = self.crawled_urls_dict.get(next_page)
                         if last_crawl_time and self._data_still_valid(last_crawl_time):
                             info_str = u"Ignoring URL: crawled {0} recently.".format(next_page)
-                            self._print_and_log(info_str)
+                            print info_str  # self._print_and_log(info_str)
                         else:  # page has never been crawled or was crawled more than self.maxhours ago
 
                             if (self.samedomain is True) and (urlsplit(response.meta["url4base"])[1] not in next_page):
                                 # info: value at index 1 in tuple returned by urlsplit() stores network location ( [wiki.]something.com )
                                 info_str = u'Ignoring {0}: domain is different from {1}'.format(next_page, response.meta["url4base"])
-                                self._print_and_log(info_str)
+                                print info_str  # self._print_and_log(info_str)
                             else:
                                 if self.allowedlinks and (not any(re.compile(el).search(next_page) for el in self.allowedlinks)):
                                     # https: // docs.python.org / 2 / library / re.html  # match-objects
@@ -364,7 +362,7 @@ class CitoSpider(scrapy.spiders.Spider):
                                     # Since match() and search() return None when there is no match,
                                     # you can test whether there was a match with a simple if statement
                                     info_str = u'Ignoring {0}: not matching any given regex in set: {1}'.format(next_page, ', '.join(self.allowedlinks))
-                                    self._print_and_log(info_str)
+                                    print info_str  # self._print_and_log(info_str)
                                 else:
                                     yield response.follow(a, callback=self.parse, meta={"url4base": next_page})
 
