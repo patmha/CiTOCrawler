@@ -435,7 +435,7 @@ class CitoSpider(scrapy.spiders.Spider):
                     ORDER BY DESC(COUNT(?p)) ASC(?p)
                     """
                 query_result = self.globalGraph.query(q)
-                stats += "\n{:>17}  {:}\n".format("OCCURENCES", "PREDICATE")
+                stats += "\n{:>17}  {:}\n".format("OCCURRENCES", "PREDICATE")
                 for i, row in enumerate(query_result):
                     (p, n) = row
                     stats += "{:4d}  {:>10d}:  {}\n".format(i + 1, int(n), str(p)[26:])
