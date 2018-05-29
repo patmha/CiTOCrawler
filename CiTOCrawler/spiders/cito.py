@@ -435,6 +435,9 @@ class CitoSpider(scrapy.spiders.Spider):
                     ORDER BY DESC(COUNT(?p)) ASC(?p)
                     """
                 query_result = self.globalGraph.query(q)
+
+                stats += "\n\nCiTO statements found: {0}\n".format(len(self.globalGraph))
+
                 stats += "\n{:>17}  {:}\n".format("OCCURRENCES", "PREDICATE")
                 for i, row in enumerate(query_result):
                     (p, n) = row
