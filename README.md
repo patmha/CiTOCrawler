@@ -2,7 +2,7 @@
 
 A configurable crawler that looks for embedded RDF (specifically RDF statements using the [CiTO](http://www.sparontologies.net/ontologies/cito) ontology) and stores the resulting graphs with provenance information according to the [OpenCitations Data Model](https://dx.doi.org/10.6084/m9.figshare.3443876).
 
-Developed in **Python 2.7** with Scrapy and RDFLib. The code for storing the OpenCitations-compliant graphs was taken from https://github.com/essepuntato/opencitations and slightly adapted by me.
+Developed in **Python 2.7** with Scrapy and RDFLib. The code for storing the OpenCitations-compliant graphs was taken from https://github.com/essepuntato/opencitations and slightly adapted.
 
 
 ## Architecture
@@ -20,7 +20,7 @@ The required libraries are listed in `requirements.txt`. To install them simply 
 
 To start CiTOCrawler run:
 
-`$ python CiTO_crawl.py <arguments>`
+`$ python CiTO_crawl.py [arguments]`
 
 Available arguments can be shown using the `-h` flag:
 
