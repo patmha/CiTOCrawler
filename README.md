@@ -18,9 +18,9 @@ The required libraries are listed in `requirements.txt`. To install them simply 
 
 ## Usage
 
-To start CiTOCrawler run
+To start CiTOCrawler run:
 
-`python CiTO_crawl.py <arguments>`
+`$ python CiTO_crawl.py <arguments>`
 
 Available arguments can be shown using the `-h` flag:
 
@@ -55,6 +55,6 @@ Available arguments can be shown using the `-h` flag:
   --debug               use debug mode (which generates extra output)
 ```
 
-Command-line arguments (if passed in) have precedence over the parameters set in the JSON configuration file (eg. the `conf.json` file located in the CiTOCrawler folder).
+Command-line arguments (if passed in) have precedence over corresponding parameters set in the JSON configuration file (eg. `conf.json`).
 
 
