@@ -5,6 +5,9 @@ A configurable crawler that looks for embedded RDF (specifically RDF statements 
 Developed in **Python 2.7** with Scrapy and RDFLib. The code for storing the OpenCitations-compliant graphs was taken from https://github.com/essepuntato/opencitations and slightly adapted by me.
 
 
+## Architecture
+![CiTOCrawler architecture](https://github.com/patmha/CiTOCrawler/blob/master/CiTOCrawler_architecture.png "CiTOCrawler architecture")
+
 ## Installation
 I suggest using a virtual environment for trying out CiTOCrawler. See https://virtualenv.pypa.io/en/stable/ for more information.
 
@@ -53,4 +56,5 @@ Available arguments can be shown using the `-h` flag:
 ```
 
 Command-line arguments (if passed in) have precedence over the parameters set in the JSON configuration file (eg. the `conf.json` file located in the CiTOCrawler folder).
+
 
